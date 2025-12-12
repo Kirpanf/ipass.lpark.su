@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Логопарк - Автопропуск </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/layout.css">
+</head>
+<body>
+    <!-- Шапка сайта -->
+    <header class="site-header">
+        <div class="container">
+            <div class="site-logo">
+                <div class="icon">
+                    <i class="fas fa-car"></i>
+                </div>
+                <div>
+                    <h1>Логопарк Менеджмент</h1>
+                    <p>ИНН: 5040071960</p>
+                </div>
+            </div>
+            
+            <button class="mobile-menu-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <div class="user-menu">
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <span class="user-name">5040071960</span>
+                </div>
+                <button class="btn btn-outline" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> Выйти
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Главная навигация -->
+    <nav class="main-nav">
+        <div class="container">
+            <ul class="nav-menu">
+                <li><a href="main.html"><i class="fas fa-home nav-icon"></i> Главная</a></li>
+                <li><a href="sessions.html"><i class="fas fa-car nav-icon"></i> Сессии проезда</a></li>
+                <li><a href="create-ticket.html" class="active"><i class="fas fa-ticket-alt nav-icon"></i> Автопропуск</a></li>
+                <li><a href="one-time-staff.html"><i class="fas fa-user-tie nav-icon"></i> Пропуск персонала</a></li>
+                <li><a href="permanent-pass.html"><i class="fas fa-id-card nav-icon"></i> Постоянный пропуск</a></li>
+                <li><a href="reports.html"><i class="fas fa-chart-bar nav-icon"></i> Отчеты</a></li>
+                <li><a href="settings.html"><i class="fas fa-cog nav-icon"></i> Настройки</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Основной контент -->
+    <div class="container">
+        <div class="content-header">
+            <h1><i class="fas fa-ticket-alt"></i> Автопропуск</h1>
+            <p>Создание временного пропуска для гостей и посетителей</p>
+        </div>
+
+        <!-- Форма создания пропуска -->
+        <div class="form-card">
+            <div class="form-card-header">
+                <h2><i class="fas fa-plus-circle"></i> Создание Автопропуска</h2>
+            </div>
+            
+            <div class="form-card-body">
+                <form id="ticketForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="guestName" class="required">ИНН гостя</label>
+                            <input type="text" id="guestName" class="form-control" placeholder="ИНН 5040071960" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="phone" class="required">Телефон</label>
+                            <input type="tel" id="phone" class="form-control" placeholder="+7 (999) 123-45-67" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="vehicleNumber" class="required">Номер ТС</label>
+                            <input type="text" id="vehicleNumber" class="form-control" placeholder="A123BC777" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="responsible">Ответственный сотрудник</label>
+                            <input type="text" id="responsible" class="form-control" placeholder="Петров Петр Петрович">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row mt-4">
+                        <div class="form-group">
+                            <label for="entryDate" class="required">Дата въезда</label>
+                            <input type="date" id="entryDate" class="form-control" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="entryTime" class="required">Время въезда</label>
+                            <input type="time" id="entryTime" class="form-control" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="exitDate" class="required">Дата выезда</label>
+                            <input type="date" id="exitDate" class="form-control" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="exitTime" class="required">Время выезда</label>
+                            <input type="time" id="exitTime" class="form-control" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="purpose">Цель визита</label>
+                        <textarea id="purpose" class="form-control" rows="3" placeholder="Опишите цель визита..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="agreement" required>
+                            Согласен с правилами посещения территории
+                        </label>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between mt-4">
+                        <button type="button" class="btn btn-outline" onclick="resetForm()">
+                            <i class="fas fa-times"></i> Очистить форму
+                        </button>
+                        <button type="button" class="btn btn-secondary" onclick="previewTicket()">
+                            <i class="fas fa-eye"></i> Предпросмотр
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-check-circle"></i> Создать пропуск
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Предпросмотр пропуска -->
+        <div class="content-body" id="previewSection" style="display: none;">
+            <h2><i class="fas fa-eye"></i> Предпросмотр пропуска</h2>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>ИНН гостя:</label>
+                    <div class="form-control bg-light" id="previewName"></div>
+                </div>
+                <div class="form-group">
+                    <label>Телефон:</label>
+                    <div class="form-control bg-light" id="previewPhone"></div>
+                </div>
+                <div class="form-group">
+                    <label>Номер ТС:</label>
+                    <div class="form-control bg-light" id="previewVehicle"></div>
+                </div>
+                <div class="form-group">
+                    <label>Въезд:</label>
+                    <div class="form-control bg-light" id="previewEntry"></div>
+                </div>
+                <div class="form-group">
+                    <label>Выезд:</label>
+                    <div class="form-control bg-light" id="previewExit"></div>
+                </div>
+                <div class="form-group">
+                    <label>Цель визита:</label>
+                    <div class="form-control bg-light" id="previewPurpose"></div>
+                </div>
+                <div class="form-group">
+                    <label>Ответственный:</label>
+                    <div class="form-control bg-light" id="previewResponsible"></div>
+                </div>
+                <div class="form-group">
+                    <label>Номер пропуска:</label>
+                    <div class="form-control bg-light" id="previewNumber"></div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-4">
+                <button class="btn btn-primary" onclick="printPreview()">
+                    <i class="fas fa-print"></i> Распечатать пропуск
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Подвал -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Логопарк Менеджмент</h4>
+                    <p>Профессиональная система управления парковкой и контролем доступа на территории предприятия.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Навигация</h4>
+                    <ul>
+                        <li><a href="main.html">Главная</a></li>
+                        <li><a href="sessions.html">Сессии проезда</a></li>
+                        <li><a href="create-ticket.html">Автопропуск</a></li>
+                        <li><a href="one-time-staff.html">Пропуск персонала</a></li>
+                        <li><a href="permanent-pass.html">Постоянный пропуск</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Контакты</h4>
+                    <p><i class="fas fa-map-marker-alt"></i> г. Москва, ул. Примерная, д. 123</p>
+                    <p><i class="fas fa-phone"></i> +7 (495) 123-45-67</p>
+                    <p><i class="fas fa-envelope"></i> info@logopark.ru</p>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>© 2024 Логопарк Менеджмент. Все права защищены. Версия 1.0.0</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/common.js"></script>
+    <script>
+        // Проверка авторизации
+        if (localStorage.getItem('isLoggedIn') !== 'true') {
+            window.location.href = 'index.html';
+        }
+
+        // Установка дат по умолчанию
+        document.addEventListener('DOMContentLoaded', function() {
+            const today = new Date();
+            const tomorrow = new Date(today);
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            
+            document.getElementById('entryDate').value = today.toISOString().split('T')[0];
+            document.getElementById('exitDate').value = tomorrow.toISOString().split('T')[0];
+            document.getElementById('entryTime').value = '09:00';
+            document.getElementById('exitTime').value = '18:00';
+        });
+
+        function generateTicketNumber() {
+            const prefix = 'GST';
+            const date = new Date();
+            const dateStr = date.getFullYear().toString().slice(-2) + 
+                          (date.getMonth() + 1).toString().padStart(2, '0') + 
+                          date.getDate().toString().padStart(2, '0');
+            const random = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
+            return prefix + dateStr + random;
+        }
+
+        function previewTicket() {
+            const form = document.getElementById('ticketForm');
+            
+            if (!form.checkValidity()) {
+                alert('Пожалуйста, заполните все обязательные поля!');
+                return;
+            }
+            
+            // Заполнение предпросмотра
+            document.getElementById('previewName').textContent = document.getElementById('guestName').value;
+            document.getElementById('previewPhone').textContent = document.getElementById('phone').value;
+            document.getElementById('previewVehicle').textContent = document.getElementById('vehicleNumber').value;
+            document.getElementById('previewEntry').textContent = 
+                document.getElementById('entryDate').value + ' ' + document.getElementById('entryTime').value;
+            document.getElementById('previewExit').textContent = 
+                document.getElementById('exitDate').value + ' ' + document.getElementById('exitTime').value;
+            document.getElementById('previewPurpose').textContent = document.getElementById('purpose').value || 'Не указана';
+            document.getElementById('previewResponsible').textContent = document.getElementById('responsible').value || 'Не указан';
+            document.getElementById('previewNumber').textContent = generateTicketNumber();
+            
+            // Показать предпросмотр
+            document.getElementById('previewSection').style.display = 'block';
+            document.getElementById('previewSection').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function resetForm() {
+            if (confirm('Вы уверены, что хотите очистить все поля?')) {
+                document.getElementById('ticketForm').reset();
+                document.getElementById('previewSection').style.display = 'none';
+                
+                // Сброс дат к значениям по умолчанию
+                const today = new Date();
+                const tomorrow = new Date(today);
+                tomorrow.setDate(tomorrow.getDate() + 1);
+                
+                document.getElementById('entryDate').value = today.toISOString().split('T')[0];
+                document.getElementById('exitDate').value = tomorrow.toISOString().split('T')[0];
+                document.getElementById('entryTime').value = '09:00';
+                document.getElementById('exitTime').value = '18:00';
+            }
+        }
+
+        function printPreview() {
+            window.print();
+        }
+
+        // Обработка отправки формы
+        document.getElementById('ticketForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (!document.getElementById('agreement').checked) {
+                alert('Необходимо согласиться с правилами посещения!');
+                return;
+            }
+            
+            // Сохранение данных
+            const ticketData = {
+                id: generateTicketNumber(),
+                guestName: document.getElementById('guestName').value,
+                phone: document.getElementById('phone').value,
+                vehicle: document.getElementById('vehicleNumber').value,
+                entryTime: document.getElementById('entryDate').value + ' ' + document.getElementById('entryTime').value,
+                exitTime: document.getElementById('exitDate').value + ' ' + document.getElementById('exitTime').value,
+                purpose: document.getElementById('purpose').value,
+                responsible: document.getElementById('responsible').value,
+                created: new Date().toLocaleString('ru-RU'),
+                status: 'активен'
+            };
+            
+            // Сохранение в localStorage
+            let tickets = JSON.parse(localStorage.getItem('tickets') || '[]');
+            tickets.push(ticketData);
+            localStorage.setItem('tickets', JSON.stringify(tickets));
+            
+            alert(`Пропуск успешно создан! Номер: ${ticketData.id}`);
+            
+            // Сброс формы
+            resetForm();
+            
+            // Показать предпросмотр с новым номером
+            previewTicket();
+        });
+
+        function logout() {
+            localStorage.removeItem('isLoggedIn');
+            localStorage.removeItem('user');
+            localStorage.removeItem('lastLogin');
+            window.location.href = 'index.html';
+        }
+
+        // Мобильное меню
+        document.querySelector('.mobile-menu-toggle')?.addEventListener('click', function() {
+            document.querySelector('.nav-menu').classList.toggle('active');
+        });
+    </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Логопарк - Автопропуск</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/layout.css">
+</head>
+<body>
+    <!-- Шапка сайта -->
+    <header class="site-header">
+        <div class="container">
+            <div class="site-logo">
+                <div class="icon">
+                    <i class="fas fa-car"></i>
+                </div>
+                <div>
+                    <h1>Логопарк Менеджмент</h1>
+                    <p>ИНН: 5040071960</p>
+                </div>
+            </div>
+            
+            <button class="mobile-menu-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <div class="user-menu">
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <span class="user-name">5040071960</span>
+                </div>
+                <button class="btn btn-outline" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> Выйти
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Главная навигация -->
+    <nav class="main-nav">
+        <div class="container">
+            <ul class="nav-menu">
+                <li><a href="main.html"><i class="fas fa-home nav-icon"></i> Главная</a></li>
+                <li><a href="sessions.html"><i class="fas fa-car nav-icon"></i> Сессии проезда</a></li>
+                <li><a href="create-ticket.html" class="active"><i class="fas fa-ticket-alt nav-icon"></i> Автопропуск</a></li>
+                <li><a href="one-time-staff.html"><i class="fas fa-user-tie nav-icon"></i> Пропуск персонала</a></li>
+                <li><a href="permanent-pass.html"><i class="fas fa-id-card nav-icon"></i> Постоянный пропуск</a></li>
+                <li><a href="reports.html"><i class="fas fa-chart-bar nav-icon"></i> Отчеты</a></li>
+                <li><a href="settings.html"><i class="fas fa-cog nav-icon"></i> Настройки</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Основной контент -->
+    <div class="container">
+        <div class="content-header">
+            <h1><i class="fas fa-ticket-alt"></i> Автопропуск</h1>
+            <p>Создание временного пропуска для гостей и посетителей</p>
+        </div>
+
+        <!-- Форма создания пропуска -->
+        <div class="form-card">
+            <div class="form-card-header">
+                <h2><i class="fas fa-plus-circle"></i> Создание Автопропуска</h2>
+            </div>
+            
+            <div class="form-card-body">
+                <form id="ticketForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="guestName" class="required">ИНН гостя</label>
+                            <input type="text" id="guestName" class="form-control" placeholder="ИНН 5040071960" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="phone" class="required">Телефон</label>
+                            <input type="tel" id="phone" class="form-control" placeholder="+7 (999) 123-45-67" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="vehicleNumber" class="required">Номер ТС</label>
+                            <input type="text" id="vehicleNumber" class="form-control" placeholder="A123BC777" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="responsible">Ответственный сотрудник</label>
+                            <input type="text" id="responsible" class="form-control" placeholder="Петров Петр Петрович">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row mt-4">
+                        <div class="form-group">
+                            <label for="entryDate" class="required">Дата въезда</label>
+                            <input type="date" id="entryDate" class="form-control" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="entryTime" class="required">Время въезда</label>
+                            <input type="time" id="entryTime" class="form-control" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="exitDate" class="required">Дата выезда</label>
+                            <input type="date" id="exitDate" class="form-control" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="exitTime" class="required">Время выезда</label>
+                            <input type="time" id="exitTime" class="form-control" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="purpose">Цель визита</label>
+                        <textarea id="purpose" class="form-control" rows="3" placeholder="Опишите цель визита..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="agreement" required>
+                            Согласен с правилами посещения территории
+                        </label>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between mt-4">
+                        <button type="button" class="btn btn-outline" onclick="resetForm()">
+                            <i class="fas fa-times"></i> Очистить форму
+                        </button>
+                        <button type="button" class="btn btn-secondary" onclick="previewTicket()">
+                            <i class="fas fa-eye"></i> Предпросмотр
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-check-circle"></i> Создать пропуск
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Предпросмотр пропуска -->
+        <div class="content-body" id="previewSection" style="display: none;">
+            <h2><i class="fas fa-eye"></i> Предпросмотр пропуска</h2>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>ИНН гостя:</label>
+                    <div class="form-control bg-light" id="previewName"></div>
+                </div>
+                <div class="form-group">
+                    <label>Телефон:</label>
+                    <div class="form-control bg-light" id="previewPhone"></div>
+                </div>
+                <div class="form-group">
+                    <label>Номер ТС:</label>
+                    <div class="form-control bg-light" id="previewVehicle"></div>
+                </div>
+                <div class="form-group">
+                    <label>Въезд:</label>
+                    <div class="form-control bg-light" id="previewEntry"></div>
+                </div>
+                <div class="form-group">
+                    <label>Выезд:</label>
+                    <div class="form-control bg-light" id="previewExit"></div>
+                </div>
+                <div class="form-group">
+                    <label>Цель визита:</label>
+                    <div class="form-control bg-light" id="previewPurpose"></div>
+                </div>
+                <div class="form-group">
+                    <label>Ответственный:</label>
+                    <div class="form-control bg-light" id="previewResponsible"></div>
+                </div>
+                <div class="form-group">
+                    <label>Номер пропуска:</label>
+                    <div class="form-control bg-light" id="previewNumber"></div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-4">
+                <button class="btn btn-primary" onclick="printPreview()">
+                    <i class="fas fa-print"></i> Распечатать пропуск
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Подвал -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Логопарк Менеджмент</h4>
+                    <p>Профессиональная система управления парковкой и контролем доступа на территории предприятия.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Навигация</h4>
+                    <ul>
+                        <li><a href="main.html">Главная</a></li>
+                        <li><a href="sessions.html">Сессии проезда</a></li>
+                        <li><a href="create-ticket.html">Автопропуск</a></li>
+                        <li><a href="one-time-staff.html">Пропуск персонала</a></li>
+                        <li><a href="permanent-pass.html">Постоянный пропуск</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Контакты</h4>
+                    <p><i class="fas fa-map-marker-alt"></i> г. Москва, ул. Примерная, д. 123</p>
+                    <p><i class="fas fa-phone"></i> +7 (495) 123-45-67</p>
+                    <p><i class="fas fa-envelope"></i> info@logopark.ru</p>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>© 2024 Логопарк Менеджмент. Все права защищены. Версия 1.0.0</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/common.js"></script>
+    <script>
+        // Проверка авторизации
+        if (localStorage.getItem('isLoggedIn') !== 'true') {
+            window.location.href = 'index.html';
+        }
+
+        // Установка дат по умолчанию
+        document.addEventListener('DOMContentLoaded', function() {
+            const today = new Date();
+            const tomorrow = new Date(today);
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            
+            document.getElementById('entryDate').value = today.toISOString().split('T')[0];
+            document.getElementById('exitDate').value = tomorrow.toISOString().split('T')[0];
+            document.getElementById('entryTime').value = '09:00';
+            document.getElementById('exitTime').value = '18:00';
+        });
+
+        function generateTicketNumber() {
+            const prefix = 'GST';
+            const date = new Date();
+            const dateStr = date.getFullYear().toString().slice(-2) + 
+                          (date.getMonth() + 1).toString().padStart(2, '0') + 
+                          date.getDate().toString().padStart(2, '0');
+            const random = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
+            return prefix + dateStr + random;
+        }
+
+        function previewTicket() {
+            const form = document.getElementById('ticketForm');
+            
+            if (!form.checkValidity()) {
+                alert('Пожалуйста, заполните все обязательные поля!');
+                return;
+            }
+            
+            // Заполнение предпросмотра
+            document.getElementById('previewName').textContent = document.getElementById('guestName').value;
+            document.getElementById('previewPhone').textContent = document.getElementById('phone').value;
+            document.getElementById('previewVehicle').textContent = document.getElementById('vehicleNumber').value;
+            document.getElementById('previewEntry').textContent = 
+                document.getElementById('entryDate').value + ' ' + document.getElementById('entryTime').value;
+            document.getElementById('previewExit').textContent = 
+                document.getElementById('exitDate').value + ' ' + document.getElementById('exitTime').value;
+            document.getElementById('previewPurpose').textContent = document.getElementById('purpose').value || 'Не указана';
+            document.getElementById('previewResponsible').textContent = document.getElementById('responsible').value || 'Не указан';
+            document.getElementById('previewNumber').textContent = generateTicketNumber();
+            
+            // Показать предпросмотр
+            document.getElementById('previewSection').style.display = 'block';
+            document.getElementById('previewSection').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function resetForm() {
+            if (confirm('Вы уверены, что хотите очистить все поля?')) {
+                document.getElementById('ticketForm').reset();
+                document.getElementById('previewSection').style.display = 'none';
+                
+                // Сброс дат к значениям по умолчанию
+                const today = new Date();
+                const tomorrow = new Date(today);
+                tomorrow.setDate(tomorrow.getDate() + 1);
+                
+                document.getElementById('entryDate').value = today.toISOString().split('T')[0];
+                document.getElementById('exitDate').value = tomorrow.toISOString().split('T')[0];
+                document.getElementById('entryTime').value = '09:00';
+                document.getElementById('exitTime').value = '18:00';
+            }
+        }
+
+        function printPreview() {
+            window.print();
+        }
+
+        // Обработка отправки формы
+        document.getElementById('ticketForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (!document.getElementById('agreement').checked) {
+                alert('Необходимо согласиться с правилами посещения!');
+                return;
+            }
+            
+            // Сохранение данных
+            const ticketData = {
+                id: generateTicketNumber(),
+                guestName: document.getElementById('guestName').value,
+                phone: document.getElementById('phone').value,
+                vehicle: document.getElementById('vehicleNumber').value,
+                entryTime: document.getElementById('entryDate').value + ' ' + document.getElementById('entryTime').value,
+                exitTime: document.getElementById('exitDate').value + ' ' + document.getElementById('exitTime').value,
+                purpose: document.getElementById('purpose').value,
+                responsible: document.getElementById('responsible').value,
+                created: new Date().toLocaleString('ru-RU'),
+                status: 'активен'
+            };
+            
+            // Сохранение в localStorage
+            let tickets = JSON.parse(localStorage.getItem('tickets') || '[]');
+            tickets.push(ticketData);
+            localStorage.setItem('tickets', JSON.stringify(tickets));
+            
+            alert(`Пропуск успешно создан! Номер: ${ticketData.id}`);
+            
+            // Сброс формы
+            resetForm();
+            
+            // Показать предпросмотр с новым номером
+            previewTicket();
+        });
+
+        function logout() {
+            localStorage.removeItem('isLoggedIn');
+            localStorage.removeItem('user');
+            localStorage.removeItem('lastLogin');
+            window.location.href = 'index.html';
+        }
+
+        // Мобильное меню
+        document.querySelector('.mobile-menu-toggle')?.addEventListener('click', function() {
+            document.querySelector('.nav-menu').classList.toggle('active');
+        });
+    </script>
+</body>
+</html>

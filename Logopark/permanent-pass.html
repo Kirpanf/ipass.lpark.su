@@ -1,0 +1,1212 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Логопарк - Постоянный пропуск</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: #f5f7fa;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .page-header {
+            background: white;
+            border-radius: 15px;
+            padding: 25px 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        }
+        
+        .page-header h1 {
+            color: #1a237e;
+            font-size: 32px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .page-header p {
+            color: #666;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+        
+        /* Форма */
+        .form-container {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            margin-bottom: 40px;
+        }
+        
+        .form-stepper {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 50px;
+            position: relative;
+        }
+        
+        .form-stepper:before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: #e0e0e0;
+            z-index: 1;
+        }
+        
+        .step {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            flex: 1;
+        }
+        
+        .step-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #e0e0e0;
+            color: #666;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .step.active .step-circle {
+            background: #4CAF50;
+            color: white;
+            box-shadow: 0 0 0 5px rgba(76, 175, 80, 0.2);
+        }
+        
+        .step.completed .step-circle {
+            background: #2196F3;
+            color: white;
+        }
+        
+        .step-label {
+            font-size: 14px;
+            color: #666;
+            font-weight: 500;
+        }
+        
+        .step.active .step-label {
+            color: #1a237e;
+            font-weight: 600;
+        }
+        
+        /* Шаги формы */
+        .form-step {
+            display: none;
+        }
+        
+        .form-step.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .step-header {
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        .step-header h2 {
+            color: #1a237e;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .step-header p {
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        /* Сетка формы */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        .form-group label.required:after {
+            content: " *";
+            color: #f44336;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: all 0.3s;
+            background: white;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #3f51b5;
+            box-shadow: 0 0 0 3px rgba(63, 81, 181, 0.1);
+        }
+        
+        .form-help {
+            font-size: 13px;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        /* Загрузка фото */
+        .photo-upload {
+            border: 3px dashed #ddd;
+            border-radius: 10px;
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: #fafafa;
+        }
+        
+        .photo-upload:hover {
+            border-color: #3f51b5;
+            background: #f5f7ff;
+        }
+        
+        .photo-upload i {
+            font-size: 60px;
+            color: #ccc;
+            margin-bottom: 20px;
+        }
+        
+        .photo-upload p {
+            color: #666;
+            margin-bottom: 15px;
+        }
+        
+        .photo-preview {
+            display: none;
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .photo-preview img {
+            max-width: 200px;
+            border-radius: 10px;
+            border: 3px solid #e0e0e0;
+        }
+        
+        /* Карта доступа */
+        .card-preview {
+            background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
+            border-radius: 15px;
+            padding: 30px;
+            color: white;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(26, 35, 126, 0.3);
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(255,255,255,0.2);
+        }
+        
+        .card-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .card-item {
+            margin-bottom: 15px;
+        }
+        
+        .card-label {
+            font-size: 12px;
+            opacity: 0.8;
+            margin-bottom: 5px;
+        }
+        
+        .card-value {
+            font-size: 16px;
+            font-weight: 500;
+        }
+        
+        .card-qr {
+            text-align: center;
+            padding: 20px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        
+        /* 16-ричная система карты */
+        .hex-input {
+            font-family: monospace;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        
+        /* Поля для нескольких авто */
+        .vehicle-fields {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .vehicle-field-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .vehicle-field-group input {
+            flex: 1;
+        }
+        
+        .add-vehicle-btn {
+            align-self: flex-start;
+            margin-top: 5px;
+        }
+        
+        /* Зоны доступа */
+        .access-zones {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 10px;
+        }
+        
+        .zone-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .zone-checkbox:hover {
+            border-color: #3f51b5;
+            background: #f5f7ff;
+        }
+        
+        .zone-checkbox input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+        }
+        
+        .zone-checkbox label {
+            margin: 0;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        
+        /* Кнопки */
+        .form-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid #eee;
+        }
+        
+        .btn {
+            padding: 14px 30px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 15px;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(76, 175, 80, 0.3);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(33, 150, 243, 0.3);
+        }
+        
+        .btn-outline {
+            background: white;
+            color: #666;
+            border: 2px solid #ddd;
+        }
+        
+        .btn-outline:hover {
+            background: #f5f5f5;
+            border-color: #bbb;
+        }
+        
+        .btn-skip {
+            background: linear-gradient(135deg, #9E9E9E 0%, #757575 100%);
+            color: white;
+        }
+        
+        .btn-skip:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(117, 117, 117, 0.3);
+        }
+        
+        /* Хлебные крошки */
+        .breadcrumbs {
+            margin-bottom: 30px;
+        }
+        
+        .breadcrumbs a {
+            color: #666;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .breadcrumbs a:hover {
+            color: #1a237e;
+        }
+        
+        .breadcrumbs span {
+            color: #1a237e;
+            font-weight: 500;
+        }
+        
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-stepper {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .form-stepper:before {
+                display: none;
+            }
+            
+            .form-actions {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .card-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .access-zones {
+                grid-template-columns: 1fr;
+            }
+            
+            .vehicle-field-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Хлебные крошки -->
+        <div class="breadcrumbs">
+            <a href="main.html">Главная</a> › 
+            <a href="permanent-pass.html">Постоянный пропуск</a> › 
+            <span>Заявка на создание</span>
+        </div>
+        
+        <!-- Заголовок -->
+        <div class="page-header">
+            <h1><i class="fas fa-id-card-alt"></i> Заявка на постоянный пропуск</h1>
+            <p>Заполните форму для оформления постоянного пропуска сотрудника</p>
+            <p style="font-size: 14px; color: #4CAF50;"><i class="fas fa-info-circle"></i> Все поля отмеченные * обязательны для заполнения</p>
+        </div>
+        
+        <!-- Степпер -->
+        <div class="form-stepper">
+            <div class="step active" id="step1">
+                <div class="step-circle">1</div>
+                <div class="step-label">Личные данные</div>
+            </div>
+            <div class="step" id="step2">
+                <div class="step-circle">2</div>
+                <div class="step-label">Фото и карта</div>
+            </div>
+            <div class="step" id="step3">
+                <div class="step-circle">3</div>
+                <div class="step-label">Транспорт</div>
+            </div>
+            <div class="step" id="step4">
+                <div class="step-circle">4</div>
+                <div class="step-label">Подтверждение</div>
+            </div>
+        </div>
+        
+        <!-- Форма -->
+        <div class="form-container">
+            <!-- Шаг 1: Личные данные -->
+            <div class="form-step active" id="step1-content">
+                <div class="step-header">
+                    <h2><i class="fas fa-user"></i> Личные данные сотрудника</h2>
+                    <p>Основная информация о сотруднике</p>
+                </div>
+                
+                <form id="permanentPassForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="employeeId">Табельный номер</label>
+                            <input type="text" id="employeeId" placeholder="001234" pattern="[0-9]{0,6}">
+                            <div class="form-help">6 цифр, например: 001234 (необязательно)</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="organization" class="required">Организация</label>
+                            <select id="organization" required>
+                                <option value="">Выберите организацию</option>
+                                <option value="company1">ООО "Логопарк"</option>
+                                <option value="company2">АО "Транспортные системы"</option>
+                                <option value="company3">ПАО "Стройлогистика"</option>
+                                <option value="other">Другая организация</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="lastName" class="required">Фамилия</label>
+                            <input type="text" id="lastName" placeholder="Иванов" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="firstName" class="required">Имя</label>
+                            <input type="text" id="firstName" placeholder="Иван" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="middleName">Отчество</label>
+                            <input type="text" id="middleName" placeholder="Иванович">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="position">Должность</label>
+                            <input type="text" id="position" placeholder="Менеджер">
+                            <div class="form-help">Необязательное поле</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="phone">Телефон</label>
+                            <input type="tel" id="phone" placeholder="+7 (999) 123-45-67" pattern="^\+7\s?[0-9]{10}$">
+                            <div class="form-help">Формат: +79991234567 (необязательно)</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" placeholder="ivanov@company.ru">
+                            <div class="form-help">Необязательное поле</div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <div></div>
+                        <button type="button" class="btn btn-secondary" onclick="nextStep(2)">
+                            Далее <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+            
+            <!-- Шаг 2: Фото и карта -->
+            <div class="form-step" id="step2-content">
+                <div class="step-header">
+                    <h2><i class="fas fa-camera"></i> Фотография и карта доступа</h2>
+                    <p>Загрузите фотографию и укажите данные карты</p>
+                </div>
+                
+                <div class="form-grid">
+                    <!-- Загрузка фото -->
+                    <div class="form-group" style="grid-column: span 2;">
+                        <label class="required">Фотография сотрудника</label>
+                        <div class="photo-upload" onclick="document.getElementById('photoInput').click()">
+                            <i class="fas fa-user-circle"></i>
+                            <p><strong>Нажмите для загрузки фотографии</strong></p>
+                            <p style="font-size: 14px;">Рекомендуемый формат: JPG, PNG<br>Размер: не более 2MB</p>
+                            <button type="button" class="btn btn-outline" style="margin-top: 10px;">
+                                <i class="fas fa-upload"></i> Выбрать файл
+                            </button>
+                            <input type="file" id="photoInput" accept="image/*" style="display: none;" onchange="handlePhotoUpload(event)">
+                        </div>
+                        <div id="photoPreviewContainer" class="photo-preview">
+                            <img id="uploadedPhoto" alt="Предпросмотр">
+                            <button type="button" class="btn btn-outline" onclick="removePhoto()" style="margin-top: 10px;">
+                                <i class="fas fa-trash"></i> Удалить фото
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Код карты -->
+                    <div class="form-group">
+                        <label for="cardCode" class="required">Код карты</label>
+                        <input type="text" id="cardCode" class="hex-input" placeholder="A1B2C3D4E5F6" required pattern="[0-9A-F]{12}">
+                        <div class="form-help">12 символов в 16-ричной системе (0-9, A-F)</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="issueDate" class="required">Дата выдачи</label>
+                        <input type="date" id="issueDate" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="expiryDate" class="required">Срок действия</label>
+                        <input type="date" id="expiryDate" required>
+                    </div>
+                    
+                    <!-- Зоны доступа -->
+                    <div class="form-group" style="grid-column: span 2;">
+                        <label for="accessZones" class="required">Зоны доступа</label>
+                        <div class="access-zones">
+                            <div class="zone-checkbox">
+                                <input type="checkbox" id="zoneSofino" name="accessZones" value="sofino">
+                                <label for="zoneSofino">Софьино</label>
+                            </div>
+                            <div class="zone-checkbox">
+                                <input type="checkbox" id="zoneBykovo" name="accessZones" value="bykovo">
+                                <label for="zoneBykovo">Быково</label>
+                            </div>
+                        </div>
+                        <div class="form-help">Выберите одну или несколько зон доступа</div>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-outline" onclick="prevStep(1)">
+                        <i class="fas fa-arrow-left"></i> Назад
+                    </button>
+                    <button type="button" class="btn btn-secondary" onclick="nextStep(3)">
+                        Далее <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Шаг 3: Транспорт -->
+            <div class="form-step" id="step3-content">
+                <div class="step-header">
+                    <h2><i class="fas fa-car"></i> Транспортные средства</h2>
+                    <p>Укажите информацию об автомобилях (не более 3 номеров)</p>
+                </div>
+                
+                <div class="form-grid">
+                    <div class="form-group" style="grid-column: span 2;">
+                        <label>Государственные номера автомобилей</label>
+                        <div class="vehicle-fields">
+                            <div class="vehicle-field-group">
+                                <input type="text" id="vehicleNumber1" class="vehicle-number" placeholder="А123ВС777" pattern="[А-Я]{1}[0-9]{3}[А-Я]{2}[0-9]{2,3}">
+                                <button type="button" class="btn btn-outline" onclick="addVehicleField()" id="addVehicleBtn">
+                                    <i class="fas fa-plus"></i> Добавить
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-help">Российский формат: буква, 3 цифры, 2 буквы, 2-3 цифры. Можно указать до 3 номеров.</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="vehicleBrand">Марка автомобиля</label>
+                        <input type="text" id="vehicleBrand" placeholder="Toyota">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="vehicleModel">Модель автомобиля</label>
+                        <input type="text" id="vehicleModel" placeholder="Camry">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="vehicleColor">Цвет</label>
+                        <select id="vehicleColor">
+                            <option value="">Не указан</option>
+                            <option value="black">Черный</option>
+                            <option value="white">Белый</option>
+                            <option value="gray">Серый</option>
+                            <option value="silver">Серебристый</option>
+                            <option value="blue">Синий</option>
+                            <option value="red">Красный</option>
+                            <option value="green">Зеленый</option>
+                            <option value="other">Другой</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-outline" onclick="prevStep(2)">
+                        <i class="fas fa-arrow-left"></i> Назад
+                    </button>
+                    <button type="button" class="btn btn-skip" onclick="skipTransport()">
+                        <i class="fas fa-forward"></i> Пропустить транспорт
+                    </button>
+                    <button type="button" class="btn btn-secondary" onclick="nextStep(4)">
+                        Далее <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Шаг 4: Подтверждение -->
+            <div class="form-step" id="step4-content">
+                <div class="step-header">
+                    <h2><i class="fas fa-check-circle"></i> Подтверждение данных</h2>
+                    <p>Проверьте введенные данные перед отправкой заявки</p>
+                </div>
+                
+                <!-- Предпросмотр пропуска -->
+                <div class="card-preview">
+                    <div class="card-header">
+                        <div>
+                            <h3 style="margin: 0; color: white;">ПОСТОЯННЫЙ ПРОПУСК</h3>
+                            <p style="opacity: 0.8; margin: 5px 0 0 0;">Логопарк Менеджмент</p>
+                        </div>
+                        <div id="passNumberDisplay" style="text-align: right;">
+                            <div style="font-size: 20px; font-weight: bold;">PP-2024-001</div>
+                            <div style="font-size: 12px; opacity: 0.8;">Номер пропуска</div>
+                        </div>
+                    </div>
+                    
+                    <div class="card-content">
+                        <div class="card-item">
+                            <div class="card-label">ФИО</div>
+                            <div class="card-value" id="previewName">Иванов И.И.</div>
+                        </div>
+                        <div class="card-item">
+                            <div class="card-label">Организация</div>
+                            <div class="card-value" id="previewOrganization">ООО "Логопарк"</div>
+                        </div>
+                        <div class="card-item">
+                            <div class="card-label">Должность</div>
+                            <div class="card-value" id="previewPosition">Менеджер</div>
+                        </div>
+                        <div class="card-item">
+                            <div class="card-label">Табельный номер</div>
+                            <div class="card-value" id="previewEmployeeId">001234</div>
+                        </div>
+                        <div class="card-item">
+                            <div class="card-label">Гос. номера</div>
+                            <div class="card-value" id="previewVehicles">А123ВС777</div>
+                        </div>
+                        <div class="card-item">
+                            <div class="card-label">Марка/Модель</div>
+                            <div class="card-value" id="previewVehicleModel">Toyota Camry</div>
+                        </div>
+                        <div class="card-item">
+                            <div class="card-label">Код карты</div>
+                            <div class="card-value" id="previewCard">A1B2C3D4E5F6</div>
+                        </div>
+                        <div class="card-item">
+                            <div class="card-label">Зоны доступа</div>
+                            <div class="card-value" id="previewZones">Софьино, Быково</div>
+                        </div>
+                        <div class="card-item">
+                            <div class="card-label">Срок действия</div>
+                            <div class="card-value" id="previewExpiry">31.12.2024</div>
+                        </div>
+                    </div>
+                    
+                    <div class="card-qr">
+                        <div style="font-size: 14px; margin-bottom: 10px;">QR-код для сканирования</div>
+                        <div style="width: 150px; height: 150px; background: white; margin: 0 auto; display: flex; align-items: center; justify-content: center; border-radius: 8px;">
+                            <div style="text-align: center; padding: 10px; color: #333;">
+                                <div style="font-size: 12px; font-weight: bold;">QR CODE</div>
+                                <div style="font-size: 10px; margin-top: 5px;">Сканируйте на въезде</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin-top: 30px;">
+                    <h3 style="color: #333; margin-bottom: 15px;"><i class="fas fa-file-contract"></i> Условия и соглашения</h3>
+                    <div style="margin-bottom: 15px;">
+                        <label style="display: flex; align-items: flex-start; gap: 10px; cursor: pointer;">
+                            <input type="checkbox" id="agreement1" required style="margin-top: 3px;">
+                            <span>Я подтверждаю, что все предоставленные данные являются достоверными и точными</span>
+                        </label>
+                    </div>
+                    <div style="margin-bottom: 15px;">
+                        <label style="display: flex; align-items: flex-start; gap: 10px; cursor: pointer;">
+                            <input type="checkbox" id="agreement2" required style="margin-top: 3px;">
+                            <span>Я согласен с правилами использования пропускной системы и обязуюсь их соблюдать</span>
+                        </label>
+                    </div>
+                    <div>
+                        <label style="display: flex; align-items: flex-start; gap: 10px; cursor: pointer;">
+                            <input type="checkbox" id="agreement3" required style="margin-top: 3px;">
+                            <span>Я уведомлен, что в случае утери карты доступа необходимо немедленно сообщить в службу безопасности</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-outline" onclick="prevStep(3)">
+                        <i class="fas fa-arrow-left"></i> Назад
+                    </button>
+                    <button type="button" class="btn btn-primary" onclick="submitForm()">
+                        <i class="fas fa-paper-plane"></i> Отправить заявку
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Проверка авторизации
+        if (localStorage.getItem('isLoggedIn') !== 'true') {
+            window.location.href = 'index.html';
+        }
+
+        // Установка дат по умолчанию
+        document.addEventListener('DOMContentLoaded', function() {
+            const today = new Date();
+            const nextYear = new Date(today);
+            nextYear.setFullYear(nextYear.getFullYear() + 1);
+            
+            document.getElementById('issueDate').value = today.toISOString().split('T')[0];
+            document.getElementById('expiryDate').value = nextYear.toISOString().split('T')[0];
+            
+            // Генерация номера пропуска
+            generatePassNumber();
+        });
+
+        // Навигация по шагам
+        let currentStep = 1;
+
+        function showStep(stepNumber) {
+            // Скрыть все шаги
+            document.querySelectorAll('.form-step').forEach(step => {
+                step.classList.remove('active');
+            });
+            
+            // Снять активность со всех шагов степпера
+            document.querySelectorAll('.step').forEach(step => {
+                step.classList.remove('active', 'completed');
+            });
+            
+            // Показать текущий шаг
+            document.getElementById(`step${stepNumber}-content`).classList.add('active');
+            
+            // Обновить степпер
+            for (let i = 1; i <= 4; i++) {
+                const stepEl = document.getElementById(`step${i}`);
+                if (i < stepNumber) {
+                    stepEl.classList.add('completed');
+                } else if (i === stepNumber) {
+                    stepEl.classList.add('active');
+                }
+            }
+            
+            currentStep = stepNumber;
+            
+            // Обновить предпросмотр на 4 шаге
+            if (stepNumber === 4) {
+                updatePreview();
+            }
+        }
+
+        function nextStep(stepNumber) {
+            // Проверка валидности текущего шага
+            if (stepNumber === 2) {
+                if (!validateStep1()) return;
+            } else if (stepNumber === 3) {
+                if (!validateStep2()) return;
+            } else if (stepNumber === 4) {
+                if (!validateStep3()) return;
+            }
+            
+            showStep(stepNumber);
+        }
+
+        function prevStep(stepNumber) {
+            showStep(stepNumber);
+        }
+
+        // Пропустить транспорт
+        function skipTransport() {
+            // Очищаем поля транспорта
+            document.querySelectorAll('.vehicle-number').forEach(input => {
+                input.value = '';
+            });
+            document.getElementById('vehicleBrand').value = '';
+            document.getElementById('vehicleModel').value = '';
+            document.getElementById('vehicleColor').value = '';
+            
+            // Переходим к следующему шагу
+            nextStep(4);
+        }
+
+        // Валидация шагов
+        function validateStep1() {
+            const requiredFields = ['lastName', 'firstName', 'organization'];
+            
+            for (const fieldId of requiredFields) {
+                const field = document.getElementById(fieldId);
+                if (!field.value.trim()) {
+                    alert(`Пожалуйста, заполните обязательное поле: ${field.previousElementSibling.textContent}`);
+                    field.focus();
+                    return false;
+                }
+            }
+            
+            return true;
+        }
+
+        function validateStep2() {
+            // Проверка фото
+            const photoInput = document.getElementById('photoInput');
+            if (!photoInput.files || photoInput.files.length === 0) {
+                alert('Пожалуйста, загрузите фотографию сотрудника');
+                return false;
+            }
+            
+            // Проверка кода карты
+            const cardCode = document.getElementById('cardCode').value;
+            const cardRegex = /^[0-9A-F]{12}$/i;
+            if (!cardRegex.test(cardCode)) {
+                alert('Пожалуйста, введите корректный код карты (12 символов в 16-ричной системе)');
+                return false;
+            }
+            
+            // Проверка дат
+            const requiredFields = ['issueDate', 'expiryDate'];
+            for (const fieldId of requiredFields) {
+                const field = document.getElementById(fieldId);
+                if (!field.value.trim()) {
+                    alert(`Пожалуйста, заполните обязательное поле: ${field.previousElementSibling.textContent}`);
+                    field.focus();
+                    return false;
+                }
+            }
+            
+            // Проверка зон доступа
+            const zones = document.querySelectorAll('input[name="accessZones"]:checked');
+            if (zones.length === 0) {
+                alert('Пожалуйста, выберите хотя бы одну зону доступа');
+                return false;
+            }
+            
+            return true;
+        }
+
+        function validateStep3() {
+            // Шаг 3 не обязателен для валидации, можно пропустить
+            return true;
+        }
+
+        // Загрузка фото
+        function handlePhotoUpload(event) {
+            const file = event.target.files[0];
+            const previewContainer = document.getElementById('photoPreviewContainer');
+            const previewImage = document.getElementById('uploadedPhoto');
+            
+            if (file) {
+                // Проверка размера файла (2MB)
+                if (file.size > 2 * 1024 * 1024) {
+                    alert('Файл слишком большой. Максимальный размер: 2MB');
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    previewImage.src = e.target.result;
+                    previewContainer.style.display = 'block';
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function removePhoto() {
+            document.getElementById('photoInput').value = '';
+            document.getElementById('photoPreviewContainer').style.display = 'none';
+        }
+
+        // Добавление полей для номеров авто
+        let vehicleCount = 1;
+        
+        function addVehicleField() {
+            if (vehicleCount >= 3) {
+                alert('Можно указать не более 3 номеров автомобилей');
+                document.getElementById('addVehicleBtn').disabled = true;
+                return;
+            }
+            
+            vehicleCount++;
+            const vehicleFields = document.querySelector('.vehicle-fields');
+            const newField = document.createElement('div');
+            newField.className = 'vehicle-field-group';
+            newField.innerHTML = `
+                <input type="text" id="vehicleNumber${vehicleCount}" class="vehicle-number" placeholder="А123ВС777" pattern="[А-Я]{1}[0-9]{3}[А-Я]{2}[0-9]{2,3}">
+                <button type="button" class="btn btn-outline" onclick="removeVehicleField(this)">
+                    <i class="fas fa-minus"></i> Удалить
+                </button>
+            `;
+            vehicleFields.appendChild(newField);
+            
+            if (vehicleCount >= 3) {
+                document.getElementById('addVehicleBtn').disabled = true;
+            }
+        }
+        
+        function removeVehicleField(button) {
+            const fieldGroup = button.parentElement;
+            fieldGroup.remove();
+            vehicleCount--;
+            document.getElementById('addVehicleBtn').disabled = false;
+            
+            // Перенумеровываем оставшиеся поля
+            const vehicleNumbers = document.querySelectorAll('.vehicle-number');
+            vehicleNumbers.forEach((input, index) => {
+                input.id = `vehicleNumber${index + 1}`;
+            });
+        }
+
+        // Генерация номера пропуска
+        function generatePassNumber() {
+            const prefix = 'PP';
+            const year = new Date().getFullYear();
+            const random = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
+            const passNumber = `${prefix}-${year}-${random}`;
+            document.getElementById('passNumberDisplay').innerHTML = `
+                <div style="font-size: 20px; font-weight: bold;">${passNumber}</div>
+                <div style="font-size: 12px; opacity: 0.8;">Номер пропуска</div>
+            `;
+            return passNumber;
+        }
+
+        // Обновление предпросмотра
+        function updatePreview() {
+            // ФИО
+            const lastName = document.getElementById('lastName').value;
+            const firstName = document.getElementById('firstName').value;
+            const middleName = document.getElementById('middleName').value;
+            const fullName = `${lastName} ${firstName} ${middleName}`.trim();
+            document.getElementById('previewName').textContent = fullName || 'Не указано';
+            
+            // Организация
+            document.getElementById('previewOrganization').textContent = 
+                document.getElementById('organization').selectedOptions[0].text || 'Не указана';
+            
+            // Должность
+            document.getElementById('previewPosition').textContent = 
+                document.getElementById('position').value || 'Не указана';
+            
+            // Табельный номер
+            document.getElementById('previewEmployeeId').textContent = 
+                document.getElementById('employeeId').value || 'Не указан';
+            
+            // Номера автомобилей
+            const vehicleNumbers = Array.from(document.querySelectorAll('.vehicle-number'))
+                .map(input => input.value)
+                .filter(value => value.trim() !== '');
+            document.getElementById('previewVehicles').textContent = 
+                vehicleNumbers.length > 0 ? vehicleNumbers.join(', ') : 'Не указаны';
+            
+            // Марка и модель
+            const brand = document.getElementById('vehicleBrand').value;
+            const model = document.getElementById('vehicleModel').value;
+            document.getElementById('previewVehicleModel').textContent = 
+                (brand && model) ? `${brand} ${model}` : (brand || model || 'Не указаны');
+            
+            // Код карты
+            document.getElementById('previewCard').textContent = 
+                document.getElementById('cardCode').value.toUpperCase() || 'Не указан';
+            
+            // Зоны доступа
+            const selectedZones = Array.from(document.querySelectorAll('input[name="accessZones"]:checked'))
+                .map(cb => {
+                    if (cb.value === 'sofino') return 'Софьино';
+                    if (cb.value === 'bykovo') return 'Быково';
+                    return cb.value;
+                });
+            document.getElementById('previewZones').textContent = 
+                selectedZones.length > 0 ? selectedZones.join(', ') : 'Не указаны';
+            
+            // Срок действия
+            const expiryDate = document.getElementById('expiryDate').value;
+            if (expiryDate) {
+                const date = new Date(expiryDate);
+                document.getElementById('previewExpiry').textContent = 
+                    date.toLocaleDateString('ru-RU');
+            } else {
+                document.getElementById('previewExpiry').textContent = 'Не указан';
+            }
+        }
+
+        // Валидация 16-ричного кода карты
+        document.getElementById('cardCode').addEventListener('input', function(e) {
+            let value = e.target.value.toUpperCase();
+            value = value.replace(/[^0-9A-F]/g, '');
+            if (value.length > 12) {
+                value = value.substring(0, 12);
+            }
+            e.target.value = value;
+        });
+
+        // Валидация номера ТС
+        document.querySelectorAll('.vehicle-number').forEach(input => {
+            input.addEventListener('input', function(e) {
+                let value = e.target.value.toUpperCase();
+                value = value.replace(/[^А-Я0-9]/g, '');
+                if (value.length > 9) {
+                    value = value.substring(0, 9);
+                }
+                e.target.value = value;
+            });
+        });
+
+        // Отправка формы
+        function submitForm() {
+            // Проверка соглашений
+            const agreements = [
+                document.getElementById('agreement1'),
+                document.getElementById('agreement2'),
+                document.getElementById('agreement3')
+            ];
+            
+            for (let i = 0; i < agreements.length; i++) {
+                if (!agreements[i].checked) {
+                    alert('Пожалуйста, примите все условия и соглашения');
+                    agreements[i].focus();
+                    return;
+                }
+            }
+            
+            // Сбор данных формы
+            const vehicleNumbers = Array.from(document.querySelectorAll('.vehicle-number'))
+                .map(input => input.value)
+                .filter(value => value.trim() !== '');
+            
+            const selectedZones = Array.from(document.querySelectorAll('input[name="accessZones"]:checked'))
+                .map(cb => cb.value);
+            
+            const formData = {
+                passNumber: generatePassNumber(),
+                employeeId: document.getElementById('employeeId').value,
+                organization: document.getElementById('organization').value,
+                organizationName: document.getElementById('organization').selectedOptions[0].text,
+                lastName: document.getElementById('lastName').value,
+                firstName: document.getElementById('firstName').value,
+                middleName: document.getElementById('middleName').value,
+                fullName: `${document.getElementById('lastName').value} ${document.getElementById('firstName').value} ${document.getElementById('middleName').value}`.trim(),
+                position: document.getElementById('position').value,
+                phone: document.getElementById('phone').value,
+                email: document.getElementById('email').value,
+                vehicleNumbers: vehicleNumbers,
+                vehicleBrand: document.getElementById('vehicleBrand').value,
+                vehicleModel: document.getElementById('vehicleModel').value,
+                vehicleColor: document.getElementById('vehicleColor').value,
+                cardCode: document.getElementById('cardCode').value.toUpperCase(),
+                issueDate: document.getElementById('issueDate').value,
+                expiryDate: document.getElementById('expiryDate').value,
+                accessZones: selectedZones,
+                created: new Date().toISOString(),
+                createdBy: '5040071960',
+                status: 'pending'
+            };
+            
+            // Сохранение в localStorage
+            let permanentPasses = JSON.parse(localStorage.getItem('permanentPasses') || '[]');
+            permanentPasses.push(formData);
+            localStorage.setItem('permanentPasses', JSON.stringify(permanentPasses));
+            
+            // Показать сообщение об успехе
+            alert(`Заявка на постоянный пропуск успешно отправлена!\n\nНомер заявки: ${formData.passNumber}\nСтатус: На рассмотрении`);
+            
+            // Перезагрузка формы
+            document.getElementById('permanentPassForm').reset();
+            document.getElementById('photoPreviewContainer').style.display = 'none';
+            
+            // Сброс полей транспорта
+            const vehicleFields = document.querySelector('.vehicle-fields');
+            vehicleFields.innerHTML = `
+                <div class="vehicle-field-group">
+                    <input type="text" id="vehicleNumber1" class="vehicle-number" placeholder="А123ВС777" pattern="[А-Я]{1}[0-9]{3}[А-Я]{2}[0-9]{2,3}">
+                    <button type="button" class="btn btn-outline" onclick="addVehicleField()" id="addVehicleBtn">
+                        <i class="fas fa-plus"></i> Добавить
+                    </button>
+                </div>
+            `;
+            vehicleCount = 1;
+            
+            // Сброс чекбоксов зон доступа
+            document.querySelectorAll('input[name="accessZones"]').forEach(cb => {
+                cb.checked = false;
+            });
+            
+            // Сброс степпера
+            showStep(1);
+            
+            // Генерация нового номера пропуска
+            generatePassNumber();
+        }
+    </script>
+</body>
+</html>

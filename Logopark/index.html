@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Логопарк - Вход в систему</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <style>
+        /* Специфичные стили только для страницы входа */
+        .login-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+        
+        .login-card {
+            width: 100%;
+            max-width: 400px;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        .login-header {
+            padding: 30px;
+            text-align: center;
+            background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
+            color: white;
+        }
+        
+        .login-header h1 {
+            color: white;
+            margin: 0 0 10px 0;
+        }
+        
+        .login-header p {
+            color: rgba(255, 255, 255, 0.8);
+            margin: 0;
+        }
+        
+        .login-body {
+            padding: 30px;
+        }
+        
+        .login-footer {
+            padding: 20px 30px;
+            background: #f8f9fa;
+            text-align: center;
+            border-top: 1px solid #eaeaea;
+            color: #666;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-page">
+        <div class="login-card">
+            <div class="login-header">
+                <h1><i class="fas fa-car"></i> Логопарк Менеджмент</h1>
+                <p>ИНН: 5040071960 • Система управления парковкой</p>
+            </div>
+            
+            <div class="login-body">
+                <form id="loginForm">
+                    <div class="form-group mb-4">
+                        <label for="login" class="form-label">Логин</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-user input-icon"></i>
+                            <input type="text" id="login" class="form-control" placeholder="Введите логин" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group mb-4">
+                        <label for="password" class="form-label">Пароль</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-lock input-icon"></i>
+                            <input type="password" id="password" class="form-control" placeholder="Введите пароль" required>
+                        </div>
+                    </div>
+                    
+                    <div id="errorMessage" class="alert alert-danger d-none">
+                        <div class="alert-icon">
+                            <i class="fas fa-exclamation-circle"></i>
+                        </div>
+                        <div class="alert-content">
+                            Неверный логин или пароль
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="fas fa-sign-in-alt"></i> Войти в систему
+                    </button>
+                </form>
+            </div>
+            
+            <div class="login-footer">
+                <p>© 2024 Логопарк Менеджмент. Все права защищены.</p>
+                <p>Версия системы: 1.0.0</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/common.js"></script>
+    <script>
+        // Специфичный скрипт для страницы входа
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const login = document.getElementById('login').value;
+            const password = document.getElementById('password').value;
+            const errorMessage = document.getElementById('errorMessage');
+            
+            // Простая проверка (в реальном проекте проверка на сервере)
+            const validUsers = {
+                '5040071960': '1234',
+                'admin': 'admin123',
+                'test': 'test123'
+            };
+            
+            if (validUsers[login] && validUsers[login] === password) {
+                // Сохраняем данные входа
+                localStorage.setItem('isLoggedIn', 'true');
+                localStorage.setItem('user', login);
+                localStorage.setItem('lastLogin', new Date().toISOString());
+                
+                // Перенаправляем на главную
+                window.location.href = 'main.html';
+            } else {
+                errorMessage.classList.remove('d-none');
+                setTimeout(() => {
+                    errorMessage.classList.add('d-none');
+                }, 3000);
+            }
+        });
+        
+        // Проверяем, не вошел ли пользователь уже
+        if (localStorage.getItem('isLoggedIn') === 'true') {
+            window.location.href = 'main.html';
+        }
+    </script>
+</body>
+</html>

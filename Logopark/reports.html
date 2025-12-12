@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Логопарк - Отчеты</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/layout.css">
+</head>
+<body>
+    <!-- Шапка сайта -->
+    <header class="site-header">
+        <div class="container">
+            <div class="site-logo">
+                <div class="icon">
+                    <i class="fas fa-car"></i>
+                </div>
+                <div>
+                    <h1>Логопарк Менеджмент</h1>
+                    <p>ИНН: 5040071960</p>
+                </div>
+            </div>
+            
+            <button class="mobile-menu-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <div class="user-menu">
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <span class="user-name">5040071960</span>
+                </div>
+                <button class="btn btn-outline" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> Выйти
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Главная навигация -->
+    <nav class="main-nav">
+        <div class="container">
+            <ul class="nav-menu">
+                <li><a href="main.html"><i class="fas fa-home nav-icon"></i> Главная</a></li>
+                <li><a href="sessions.html"><i class="fas fa-car nav-icon"></i> Сессии проезда</a></li>
+                <li><a href="create-ticket.html"><i class="fas fa-ticket-alt nav-icon"></i> Автопропуск</a></li>
+                <li><a href="one-time-staff.html"><i class="fas fa-user-tie nav-icon"></i> Пропуск персонала</a></li>
+                <li><a href="permanent-pass.html"><i class="fas fa-id-card nav-icon"></i> Постоянный пропуск</a></li>
+                <li><a href="reports.html" class="active"><i class="fas fa-chart-bar nav-icon"></i> Отчеты</a></li>
+                <li><a href="settings.html"><i class="fas fa-cog nav-icon"></i> Настройки</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Основной контент -->
+    <div class="container">
+        <div class="content-header">
+            <h1><i class="fas fa-chart-bar"></i> Отчеты и аналитика</h1>
+            <p>Выберите тип отчета для генерации</p>
+        </div>
+
+        <!-- Карточки отчетов -->
+        <div class="content-body">
+            <div class="dashboard-grid">
+                <div class="dashboard-card" onclick="showReportForm('daily')">
+                    <div class="card-icon">
+                        <i class="fas fa-calendar-day"></i>
+                    </div>
+                    <h3>Ежедневный отчет</h3>
+                    <p>Отчет по активности за выбранный день</p>
+                </div>
+                
+                <div class="dashboard-card" onclick="showReportForm('weekly')">
+                    <div class="card-icon">
+                        <i class="fas fa-calendar-week"></i>
+                    </div>
+                    <h3>Еженедельный отчет</h3>
+                    <p>Сводка по недельной активности</p>
+                </div>
+                
+                <div class="dashboard-card" onclick="showReportForm('monthly')">
+                    <div class="card-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Ежемесячный отчет</h3>
+                    <p>Анализ активности за месяц</p>
+                </div>
+                
+                <div class="dashboard-card" onclick="showReportForm('vehicles')">
+                    <div class="card-icon">
+                        <i class="fas fa-car"></i>
+                    </div>
+                    <h3>Отчет по ТС</h3>
+                    <p>Статистика по транспортным средствам</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Форма отчета -->
+        <div class="content-body" id="reportForm" style="display: none;">
+            <h2 id="reportFormTitle">Формирование отчета</h2>
+            
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Период с</label>
+                    <input type="date" id="reportDateFrom" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>Период по</label>
+                    <input type="date" id="reportDateTo" class="form-control">
+                </div>
+                
+                <div class="form-group">
+                    <label>Формат отчета</label>
+                    <select id="reportFormat" class="form-control">
+                        <option value="pdf">PDF</option>
+                        <option value="excel">Excel</option>
+                        <option value="csv">CSV</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Детализация</label>
+                    <select id="reportDetail" class="form-control">
+                        <option value="summary">Сводка</option>
+                        <option value="detailed">Подробный</option>
+                        <option value="statistics">Статистика</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="d-flex justify-content-between mt-4">
+                <button class="btn btn-outline" onclick="hideReportForm()">
+                    <i class="fas fa-times"></i> Отмена
+                </button>
+                <button class="btn btn-primary" onclick="generateReport()">
+                    <i class="fas fa-download"></i> Сгенерировать отчет
+                </button>
+            </div>
+        </div>
+
+        <!-- История отчетов -->
+        <div class="content-body">
+            <h2><i class="fas fa-history"></i> История отчетов</h2>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Дата создания</th>
+                            <th>Тип отчета</th>
+                            <th>Период</th>
+                            <th>Формат</th>
+                            <th>Статус</th>
+                            <th>Действия</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>15.01.2024 10:30</td>
+                            <td>Ежедневный</td>
+                            <td>15.01.2024</td>
+                            <td>PDF</td>
+                            <td><span class="status-badge status-completed">Готов</span></td>
+                            <td>
+                                <button class="btn btn-outline">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>14.01.2024 09:15</td>
+                            <td>Еженедельный</td>
+                            <td>08.01.2024 - 14.01.2024</td>
+                            <td>Excel</td>
+                            <td><span class="status-badge status-completed">Готов</span></td>
+                            <td>
+                                <button class="btn btn-outline">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Подвал -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Логопарк Менеджмент</h4>
+                    <p>Профессиональная система управления парковкой и контролем доступа на территории предприятия.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Навигация</h4>
+                    <ul>
+                        <li><a href="main.html">Главная</a></li>
+                        <li><a href="sessions.html">Сессии проезда</a></li>
+                        <li><a href="create-ticket.html">Автопропуск</a></li>
+                        <li><a href="one-time-staff.html">Пропуск персонала</a></li>
+                        <li><a href="permanent-pass.html">Постоянный пропуск</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Контакты</h4>
+                    <p><i class="fas fa-map-marker-alt"></i> г. Москва, ул. Примерная, д. 123</p>
+                    <p><i class="fas fa-phone"></i> +7 (495) 123-45-67</p>
+                    <p><i class="fas fa-envelope"></i> info@logopark.ru</p>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>© 2024 Логопарк Менеджмент. Все права защищены. Версия 1.0.0</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/common.js"></script>
+    <script>
+        // Проверка авторизации
+        if (localStorage.getItem('isLoggedIn') !== 'true') {
+            window.location.href = 'index.html';
+        }
+
+        let currentReportType = '';
+
+        function showReportForm(type) {
+            currentReportType = type;
+            const form = document.getElementById('reportForm');
+            const title = document.getElementById('reportFormTitle');
+            
+            // Установка заголовка
+            const titles = {
+                'daily': 'Ежедневный отчет',
+                'weekly': 'Еженедельный отчет',
+                'monthly': 'Ежемесячный отчет',
+                'vehicles': 'Отчет по транспортным средствам'
+            };
+            
+            title.textContent = titles[type] || 'Формирование отчета';
+            
+            // Установка дат по умолчанию
+            const today = new Date();
+            const weekAgo = new Date(today);
+            const monthAgo = new Date(today);
+            
+            weekAgo.setDate(today.getDate() - 7);
+            monthAgo.setMonth(today.getMonth() - 1);
+            
+            switch(type) {
+                case 'daily':
+                    document.getElementById('reportDateFrom').value = today.toISOString().split('T')[0];
+                    document.getElementById('reportDateTo').value = today.toISOString().split('T')[0];
+                    break;
+                case 'weekly':
+                    document.getElementById('reportDateFrom').value = weekAgo.toISOString().split('T')[0];
+                    document.getElementById('reportDateTo').value = today.toISOString().split('T')[0];
+                    break;
+                case 'monthly':
+                    document.getElementById('reportDateFrom').value = monthAgo.toISOString().split('T')[0];
+                    document.getElementById('reportDateTo').value = today.toISOString().split('T')[0];
+                    break;
+                case 'vehicles':
+                    document.getElementById('reportDateFrom').value = monthAgo.toISOString().split('T')[0];
+                    document.getElementById('reportDateTo').value = today.toISOString().split('T')[0];
+                    break;
+            }
+            
+            form.style.display = 'block';
+            form.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function hideReportForm() {
+            document.getElementById('reportForm').style.display = 'none';
+        }
+
+        function generateReport() {
+            const dateFrom = document.getElementById('reportDateFrom').value;
+            const dateTo = document.getElementById('reportDateTo').value;
+            const format = document.getElementById('reportFormat').value;
+            const detail = document.getElementById('reportDetail').value;
+            
+            if (!dateFrom || !dateTo) {
+                alert('Пожалуйста, выберите период!');
+                return;
+            }
+            
+            const reportName = {
+                'daily': 'Ежедневный',
+                'weekly': 'Еженедельный',
+                'monthly': 'Ежемесячный',
+                'vehicles': 'По ТС'
+            }[currentReportType];
+            
+            alert(`Отчет "${reportName}" за период с ${dateFrom} по ${dateTo} в формате ${format.toUpperCase()} генерируется...`);
+            hideReportForm();
+        }
+
+        function logout() {
+            localStorage.removeItem('isLoggedIn');
+            localStorage.removeItem('user');
+            localStorage.removeItem('lastLogin');
+            window.location.href = 'index.html';
+        }
+
+        // Мобильное меню
+        document.querySelector('.mobile-menu-toggle')?.addEventListener('click', function() {
+            document.querySelector('.nav-menu').classList.toggle('active');
+        });
+    </script>
+</body>
+</html>

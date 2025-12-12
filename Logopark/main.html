@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Логопарк - Главная</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/layout.css">
+</head>
+<body>
+    <!-- Шапка сайта -->
+    <header class="site-header">
+        <div class="container">
+            <div class="site-logo">
+                <div class="icon">
+                    <i class="fas fa-car"></i>
+                </div>
+                <div>
+                    <h1>Логопарк Менеджмент</h1>
+                    <p>ИНН: 5040071960</p>
+                </div>
+            </div>
+            
+            <button class="mobile-menu-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <div class="user-menu">
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <span class="user-name">5040071960</span>
+                </div>
+                <button class="btn btn-outline" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> Выйти
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Главная навигация -->
+    <nav class="main-nav">
+        <div class="container">
+            <ul class="nav-menu">
+                <li><a href="main.html" class="active"><i class="fas fa-home nav-icon"></i> Главная</a></li>
+                <li><a href="sessions.html"><i class="fas fa-car nav-icon"></i> Сессии проезда</a></li>
+                <li><a href="create-ticket.html"><i class="fas fa-ticket-alt nav-icon"></i> Гостевой пропуск</a></li>
+                <li><a href="one-time-staff.html"><i class="fas fa-user-tie nav-icon"></i> Пропуск персонала</a></li>
+                <li><a href="permanent-pass.html"><i class="fas fa-id-card nav-icon"></i> Постоянный пропуск</a></li>
+                <li><a href="reports.html"><i class="fas fa-chart-bar nav-icon"></i> Отчеты</a></li>
+                <li><a href="settings.html"><i class="fas fa-cog nav-icon"></i> Настройки</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Основной контент -->
+    <div class="container">
+        <div class="content-header">
+            <h1><i class="fas fa-tachometer-alt"></i> Панель управления</h1>
+            <p>Добро пожаловать в систему управления парковкой Логопарк</p>
+        </div>
+
+        <!-- Статистика -->
+        <div class="content-body">
+            <div class="form-grid">
+                <div class="dashboard-card">
+                    <div class="card-icon">
+                        <i class="fas fa-car"></i>
+                    </div>
+                    <h3>15</h3>
+                    <p>На парковке</p>
+                </div>
+
+                <div class="dashboard-card">
+                    <div class="card-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>48</h3>
+                    <p>Сотрудников</p>
+                </div>
+
+                <div class="dashboard-card">
+                    <div class="card-icon">
+                        <i class="fas fa-id-card"></i>
+                    </div>
+                    <h3>127</h3>
+                    <p>Пропусков</p>
+                </div>
+
+                <div class="dashboard-card">
+                    <div class="card-icon">
+                        <i class="fas fa-calendar-day"></i>
+                    </div>
+                    <h3>24</h3>
+                    <p>За сегодня</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Быстрый доступ -->
+        <div class="content-body">
+            <h2><i class="fas fa-rocket"></i> Быстрый доступ</h2>
+            <p>Выберите необходимый раздел для работы</p>
+
+            <div class="dashboard-grid">
+                <a href="sessions.html" class="dashboard-card">
+                    <div class="card-icon">
+                        <i class="fas fa-car"></i>
+                    </div>
+                    <h3>Сессии проезда</h3>
+                    <p>Просмотр и управление сессиями въезда/выезда</p>
+                </a>
+
+                <a href="create-ticket.html" class="dashboard-card">
+                    <div class="card-icon">
+                        <i class="fas fa-ticket-alt"></i>
+                    </div>
+                    <h3>Гостевой пропуск</h3>
+                    <p>Создание временного пропуска для гостей</p>
+                </a>
+
+                <a href="one-time-staff.html" class="dashboard-card">
+                    <div class="card-icon">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <h3>Пропуск персонала</h3>
+                    <p>Создание одноразовых пропусков для сотрудников</p>
+                </a>
+
+                <a href="permanent-pass.html" class="dashboard-card">
+                    <div class="card-icon">
+                        <i class="fas fa-id-card"></i>
+                    </div>
+                    <h3>Постоянный пропуск</h3>
+                    <p>Заявки на оформление постоянных пропусков</p>
+                </a>
+
+                <a href="reports.html" class="dashboard-card">
+                    <div class="card-icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <h3>Отчеты</h3>
+                    <p>Генерация отчетов и статистики по активности</p>
+                </a>
+
+                <a href="settings.html" class="dashboard-card">
+                    <div class="card-icon">
+                        <i class="fas fa-cog"></i>
+                    </div>
+                    <h3>Настройки</h3>
+                    <p>Настройка системы, пользователей и параметров</p>
+                </a>
+            </div>
+        </div>
+
+        <!-- Последние действия -->
+        <div class="content-body">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2><i class="fas fa-history"></i> Последние действия</h2>
+                <a href="reports.html" class="btn btn-outline">
+                    <i class="fas fa-list"></i> Все действия
+                </a>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Время</th>
+                            <th>Действие</th>
+                            <th>Пользователь</th>
+                            <th>Детали</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>10:30:15</td>
+                            <td>Создан пропуск</td>
+                            <td>5040071960</td>
+                            <td>Гостевой пропуск №GST-240101</td>
+                        </tr>
+                        <tr>
+                            <td>09:45:22</td>
+                            <td>Въезд на территорию</td>
+                            <td>Система</td>
+                            <td>ТС: А123ВС777</td>
+                        </tr>
+                        <tr>
+                            <td>09:12:05</td>
+                            <td>Создан пропуск</td>
+                            <td>5040071960</td>
+                            <td>Пропуск персонала №EMP-240101</td>
+                        </tr>
+                        <tr>
+                            <td>08:30:47</td>
+                            <td>Выезд с территории</td>
+                            <td>Система</td>
+                            <td>ТС: В456ОР99</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Подвал -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Логопарк Менеджмент</h4>
+                    <p>Профессиональная система управления парковкой и контролем доступа на территории предприятия.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-vk"></i></a>
+                        <a href="#"><i class="fab fa-telegram"></i></a>
+                        <a href="#"><i class="fas fa-envelope"></i></a>
+                        <a href="#"><i class="fas fa-phone"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Навигация</h4>
+                    <ul>
+                        <li><a href="main.html">Главная</a></li>
+                        <li><a href="sessions.html">Сессии проезда</a></li>
+                        <li><a href="create-ticket.html">Автопропуск</a></li>
+                        <li><a href="one-time-staff.html">Пропуск персонала</a></li>
+                        <li><a href="permanent-pass.html">Постоянный пропуск</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Контакты</h4>
+                    <p><i class="fas fa-map-marker-alt"></i> г. Москва, ул. Примерная, д. 123</p>
+                    <p><i class="fas fa-phone"></i> +7 (495) 123-45-67</p>
+                    <p><i class="fas fa-envelope"></i> info@logopark.ru</p>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>© 2024 Логопарк Менеджмент. Все права защищены. Версия 1.0.0</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/common.js"></script>
+    <script>
+        // Проверка авторизации
+        if (localStorage.getItem('isLoggedIn') !== 'true') {
+            window.location.href = 'index.html';
+        }
+
+        // Функция выхода
+        function logout() {
+            localStorage.removeItem('isLoggedIn');
+            localStorage.removeItem('user');
+            localStorage.removeItem('lastLogin');
+            window.location.href = 'index.html';
+        }
+
+        // Мобильное меню
+        document.querySelector('.mobile-menu-toggle').addEventListener('click', function() {
+            document.querySelector('.nav-menu').classList.toggle('active');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Логопарк - Настройки</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/layout.css">
+</head>
+<body>
+    <!-- Шапка сайта -->
+    <header class="site-header">
+        <div class="container">
+            <div class="site-logo">
+                <div class="icon">
+                    <i class="fas fa-car"></i>
+                </div>
+                <div>
+                    <h1>Логопарк Менеджмент</h1>
+                    <p>ИНН: 5040071960</p>
+                </div>
+            </div>
+            
+            <button class="mobile-menu-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <div class="user-menu">
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <span class="user-name">5040071960</span>
+                </div>
+                <button class="btn btn-outline" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> Выйти
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Главная навигация -->
+    <nav class="main-nav">
+        <div class="container">
+            <ul class="nav-menu">
+                <li><a href="main.html"><i class="fas fa-home nav-icon"></i> Главная</a></li>
+                <li><a href="sessions.html"><i class="fas fa-car nav-icon"></i> Сессии проезда</a></li>
+                <li><a href="create-ticket.html"><i class="fas fa-ticket-alt nav-icon"></i> Гостевой пропуск</a></li>
+                <li><a href="one-time-staff.html"><i class="fas fa-user-tie nav-icon"></i> Пропуск персонала</a></li>
+                <li><a href="permanent-pass.html"><i class="fas fa-id-card nav-icon"></i> Постоянный пропуск</a></li>
+                <li><a href="reports.html"><i class="fas fa-chart-bar nav-icon"></i> Отчеты</a></li>
+                <li><a href="settings.html" class="active"><i class="fas fa-cog nav-icon"></i> Настройки</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Основной контент -->
+    <div class="container">
+        <div class="content-header">
+            <h1><i class="fas fa-cog"></i> Настройки системы</h1>
+            <p>Управление параметрами системы и пользователями</p>
+        </div>
+
+        <!-- Вкладки настроек -->
+        <div class="content-body">
+            <div class="form-card">
+                <div class="form-card-header">
+                    <h2><i class="fas fa-sliders-h"></i> Основные настройки</h2>
+                </div>
+                
+                <div class="form-card-body">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="companyName">Название компании</label>
+                            <input type="text" id="companyName" class="form-control" value="Логопарк Менеджмент">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="inn">ИНН</label>
+                            <input type="text" id="inn" class="form-control" value="5040071960">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="address">Адрес</label>
+                            <input type="text" id="address" class="form-control" value="г. Москва, ул. Примерная, д. 123">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="phone">Контактный телефон</label>
+                            <input type="tel" id="phone" class="form-control" value="+7 (495) 123-45-67">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" class="form-control" value="info@logopark.ru">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="timezone">Часовой пояс</label>
+                            <select id="timezone" class="form-control">
+                                <option value="+3">Москва (UTC+3)</option>
+                                <option value="+4">Самара (UTC+4)</option>
+                                <option value="+5">Екатеринбург (UTC+5)</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group mt-4">
+                        <label>
+                            <input type="checkbox" id="autoLogout" checked>
+                            Автоматический выход после 30 минут бездействия
+                        </label>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between mt-4">
+                        <button class="btn btn-outline" onclick="resetSettings()">
+                            <i class="fas fa-undo"></i> Сбросить
+                        </button>
+                        <button class="btn btn-primary" onclick="saveSettings()">
+                            <i class="fas fa-save"></i> Сохранить настройки
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Настройки парковки -->
+        <div class="content-body">
+            <div class="form-card">
+                <div class="form-card-header">
+                    <h2><i class="fas fa-parking"></i> Настройки парковки</h2>
+                </div>
+                
+                <div class="form-card-body">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="firstHourPrice">Первый час (руб.)</label>
+                            <input type="number" id="firstHourPrice" class="form-control" value="100">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="nextHourPrice">Каждый последующий час (руб.)</label>
+                            <input type="number" id="nextHourPrice" class="form-control" value="50">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="dailyPrice">Сутки (руб.)</label>
+                            <input type="number" id="dailyPrice" class="form-control" value="500">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="freeMinutes">Бесплатные минуты</label>
+                            <input type="number" id="freeMinutes" class="form-control" value="15">
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between mt-4">
+                        <button class="btn btn-outline" onclick="resetParkingSettings()">
+                            <i class="fas fa-undo"></i> Сбросить
+                        </button>
+                        <button class="btn btn-primary" onclick="saveParkingSettings()">
+                            <i class="fas fa-save"></i> Сохранить настройки парковки
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Уведомления -->
+        <div class="content-body">
+            <div class="form-card">
+                <div class="form-card-header">
+                    <h2><i class="fas fa-bell"></i> Настройки уведомлений</h2>
+                </div>
+                
+                <div class="form-card-body">
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="notifyEntry" checked>
+                            Уведомлять о въезде
+                        </label>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="notifyExit" checked>
+                            Уведомлять о выезде
+                        </label>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="notifyOverstay">
+                            Уведомлять о превышении времени
+                        </label>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="notifyTicketExpiry">
+                            Уведомлять об истечении срока пропуска
+                        </label>
+                    </div>
+                    
+                    <div class="form-group mt-4">
+                        <label for="mainNotificationEmail">Основной email для уведомлений</label>
+                        <input type="email" id="mainNotificationEmail" class="form-control" value="notifications@logopark.ru">
+                    </div>
+                    
+                    <div class="d-flex justify-content-between mt-4">
+                        <button class="btn btn-outline" onclick="resetNotificationSettings()">
+                            <i class="fas fa-undo"></i> Сбросить
+                        </button>
+                        <button class="btn btn-primary" onclick="saveNotificationSettings()">
+                            <i class="fas fa-save"></i> Сохранить настройки уведомлений
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Подвал -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Логопарк Менеджмент</h4>
+                    <p>Профессиональная система управления парковкой и контролем доступа на территории предприятия.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Навигация</h4>
+                    <ul>
+                        <li><a href="main.html">Главная</a></li>
+                        <li><a href="sessions.html">Сессии проезда</a></li>
+                        <li><a href="create-ticket.html">Гостевой пропуск</a></li>
+                        <li><a href="one-time-staff.html">Пропуск персонала</a></li>
+                        <li><a href="permanent-pass.html">Постоянный пропуск</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Контакты</h4>
+                    <p><i class="fas fa-map-marker-alt"></i> г. Москва, ул. Примерная, д. 123</p>
+                    <p><i class="fas fa-phone"></i> +7 (495) 123-45-67</p>
+                    <p><i class="fas fa-envelope"></i> info@logopark.ru</p>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>© 2024 Логопарк Менеджмент. Все права защищены. Версия 1.0.0</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/common.js"></script>
+    <script>
+        // Проверка авторизации
+        if (localStorage.getItem('isLoggedIn') !== 'true') {
+            window.location.href = 'index.html';
+        }
+
+        function saveSettings() {
+            alert('Основные настройки сохранены!');
+        }
+
+        function resetSettings() {
+            if (confirm('Вы уверены, что хотите сбросить настройки к значениям по умолчанию?')) {
+                document.getElementById('companyName').value = 'Логопарк Менеджмент';
+                document.getElementById('inn').value = '5040071960';
+                document.getElementById('address').value = 'г. Москва, ул. Примерная, д. 123';
+                document.getElementById('phone').value = '+7 (495) 123-45-67';
+                document.getElementById('email').value = 'info@logopark.ru';
+                document.getElementById('timezone').value = '+3';
+                document.getElementById('autoLogout').checked = true;
+            }
+        }
+
+        function saveParkingSettings() {
+            alert('Настройки парковки сохранены!');
+        }
+
+        function resetParkingSettings() {
+            document.getElementById('firstHourPrice').value = '100';
+            document.getElementById('nextHourPrice').value = '50';
+            document.getElementById('dailyPrice').value = '500';
+            document.getElementById('freeMinutes').value = '15';
+        }
+
+        function saveNotificationSettings() {
+            alert('Настройки уведомлений сохранены!');
+        }
+
+        function resetNotificationSettings() {
+            document.getElementById('notifyEntry').checked = true;
+            document.getElementById('notifyExit').checked = true;
+            document.getElementById('notifyOverstay').checked = false;
+            document.getElementById('notifyTicketExpiry').checked = false;
+            document.getElementById('mainNotificationEmail').value = 'notifications@logopark.ru';
+        }
+
+        function logout() {
+            localStorage.removeItem('isLoggedIn');
+            localStorage.removeItem('user');
+            localStorage.removeItem('lastLogin');
+            window.location.href = 'index.html';
+        }
+
+        // Мобильное меню
+        document.querySelector('.mobile-menu-toggle')?.addEventListener('click', function() {
+            document.querySelector('.nav-menu').classList.toggle('active');
+        });
+    </script>
+</body>
+</html>

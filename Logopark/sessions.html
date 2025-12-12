@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Логопарк - Сессии проезда</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/layout.css">
+</head>
+<body>
+    <!-- Шапка сайта -->
+    <header class="site-header">
+        <div class="container">
+            <div class="site-logo">
+                <div class="icon">
+                    <i class="fas fa-car"></i>
+                </div>
+                <div>
+                    <h1>Логопарк Менеджмент</h1>
+                    <p>ИНН: 5040071960</p>
+                </div>
+            </div>
+            
+            <button class="mobile-menu-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <div class="user-menu">
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <span class="user-name">5040071960</span>
+                </div>
+                <button class="btn btn-outline" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> Выйти
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Главная навигация -->
+    <nav class="main-nav">
+        <div class="container">
+            <ul class="nav-menu">
+                <li><a href="main.html"><i class="fas fa-home nav-icon"></i> Главная</a></li>
+                <li><a href="sessions.html" class="active"><i class="fas fa-car nav-icon"></i> Сессии проезда</a></li>
+                <li><a href="create-ticket.html"><i class="fas fa-ticket-alt nav-icon"></i> Гостевой пропуск</a></li>
+                <li><a href="one-time-staff.html"><i class="fas fa-user-tie nav-icon"></i> Пропуск персонала</a></li>
+                <li><a href="permanent-pass.html"><i class="fas fa-id-card nav-icon"></i> Постоянный пропуск</a></li>
+                <li><a href="reports.html"><i class="fas fa-chart-bar nav-icon"></i> Отчеты</a></li>
+                <li><a href="settings.html"><i class="fas fa-cog nav-icon"></i> Настройки</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Основной контент -->
+    <div class="container">
+        <div class="content-header">
+            <h1><i class="fas fa-car"></i> Сессии проезда</h1>
+            <p>Просмотр и управление сессиями въезда/выезда на территорию</p>
+        </div>
+
+        <!-- Фильтры -->
+        <div class="content-body">
+            <div class="form-card">
+                <div class="form-card-header">
+                    <h2><i class="fas fa-filter"></i> Фильтры поиска</h2>
+                </div>
+                <div class="form-card-body">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="dateFrom">Дата с</label>
+                            <input type="date" id="dateFrom" class="form-control">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="dateTo">Дата по</label>
+                            <input type="date" id="dateTo" class="form-control">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="vehicleNumber">Номер ТС</label>
+                            <input type="text" id="vehicleNumber" class="form-control" placeholder="A123BC777">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="statusFilter">Статус</label>
+                            <select id="statusFilter" class="form-control">
+                                <option value="all">Все</option>
+                                <option value="active">Активные</option>
+                                <option value="completed">Завершенные</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between mt-4">
+                        <button class="btn btn-secondary" onclick="applyFilters()">
+                            <i class="fas fa-search"></i> Применить фильтры
+                        </button>
+                        <button class="btn btn-outline" onclick="clearFilters()">
+                            <i class="fas fa-times"></i> Сбросить фильтры
+                        </button>
+                        <button class="btn btn-primary" onclick="addSession()">
+                            <i class="fas fa-plus"></i> Добавить сессию
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Таблица сессий -->
+        <div class="content-body">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2><i class="fas fa-list"></i> Список сессий</h2>
+                <div>
+                    <button class="btn btn-outline" onclick="exportData()">
+                        <i class="fas fa-download"></i> Экспорт в Excel
+                    </button>
+                    <button class="btn btn-outline" onclick="printTable()">
+                        <i class="fas fa-print"></i> Печать
+                    </button>
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Номер ТС</th>
+                            <th>Время въезда</th>
+                            <th>Время выезда</th>
+                            <th>Статус</th>
+                            <th>Длительность</th>
+                            <th>Действия</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sessionsBody">
+                        <!-- Данные будут загружаться через JavaScript -->
+                        <tr>
+                            <td>1</td>
+                            <td>A123BC777</td>
+                            <td>2024-01-15 10:30:00</td>
+                            <td>2024-01-15 12:45:00</td>
+                            <td><span class="status-badge status-completed">Завершено</span></td>
+                            <td>2ч 15м</td>
+                            <td>
+                                <button class="btn btn-outline" onclick="editSession(1)">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn btn-outline" onclick="deleteSession(1)">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>B456DE888</td>
+                            <td>2024-01-15 11:15:00</td>
+                            <td>-</td>
+                            <td><span class="status-badge status-active">Активна</span></td>
+                            <td>в процессе</td>
+                            <td>
+                                <button class="btn btn-outline" onclick="editSession(2)">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn btn-outline" onclick="deleteSession(2)">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>C789FG999</td>
+                            <td>2024-01-14 09:00:00</td>
+                            <td>2024-01-14 18:30:00</td>
+                            <td><span class="status-badge status-completed">Завершено</span></td>
+                            <td>9ч 30м</td>
+                            <td>
+                                <button class="btn btn-outline" onclick="editSession(3)">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn btn-outline" onclick="deleteSession(3)">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Подвал -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Логопарк Менеджмент</h4>
+                    <p>Профессиональная система управления парковкой и контролем доступа на территории предприятия.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Навигация</h4>
+                    <ul>
+                        <li><a href="main.html">Главная</a></li>
+                        <li><a href="sessions.html">Сессии проезда</a></li>
+                        <li><a href="create-ticket.html">Гостевой пропуск</a></li>
+                        <li><a href="one-time-staff.html">Пропуск персонала</a></li>
+                        <li><a href="permanent-pass.html">Постоянный пропуск</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Контакты</h4>
+                    <p><i class="fas fa-map-marker-alt"></i> г. Москва, ул. Примерная, д. 123</p>
+                    <p><i class="fas fa-phone"></i> +7 (495) 123-45-67</p>
+                    <p><i class="fas fa-envelope"></i> info@logopark.ru</p>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>© 2024 Логопарк Менеджмент. Все права защищены. Версия 1.0.0</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/common.js"></script>
+    <script>
+        // Проверка авторизации
+        if (localStorage.getItem('isLoggedIn') !== 'true') {
+            window.location.href = 'index.html';
+        }
+
+        // Пример данных
+        let sessionsData = [
+            {id: 1, vehicle: 'A123BC777', entryTime: '2024-01-15 10:30:00', exitTime: '2024-01-15 12:45:00', status: 'Завершено', duration: '2ч 15м'},
+            {id: 2, vehicle: 'B456DE888', entryTime: '2024-01-15 11:15:00', exitTime: '', status: 'Активна', duration: 'в процессе'},
+            {id: 3, vehicle: 'C789FG999', entryTime: '2024-01-14 09:00:00', exitTime: '2024-01-14 18:30:00', status: 'Завершено', duration: '9ч 30м'},
+        ];
+
+        function loadSessions() {
+            // В реальном проекте загрузка с сервера
+        }
+
+        function addSession() {
+            const vehicle = prompt('Введите номер ТС:');
+            if (vehicle) {
+                alert('Сессия добавлена!');
+                // В реальном проекте отправка на сервер
+            }
+        }
+
+        function editSession(id) {
+            alert('Редактирование сессии ID: ' + id);
+        }
+
+        function deleteSession(id) {
+            if (confirm('Вы уверены, что хотите удалить эту сессию?')) {
+                alert('Сессия удалена!');
+                // В реальном проекте отправка на сервер
+            }
+        }
+
+        function applyFilters() {
+            alert('Фильтры применены!');
+        }
+
+        function clearFilters() {
+            document.getElementById('dateFrom').value = '';
+            document.getElementById('dateTo').value = '';
+            document.getElementById('vehicleNumber').value = '';
+            document.getElementById('statusFilter').value = 'all';
+        }
+
+        function exportData() {
+            alert('Данные экспортированы в Excel!');
+        }
+
+        function printTable() {
+            window.print();
+        }
+
+        function logout() {
+            localStorage.removeItem('isLoggedIn');
+            localStorage.removeItem('user');
+            localStorage.removeItem('lastLogin');
+            window.location.href = 'index.html';
+        }
+
+        // Мобильное меню
+        document.querySelector('.mobile-menu-toggle')?.addEventListener('click', function() {
+            document.querySelector('.nav-menu').classList.toggle('active');
+        });
+    </script>
+</body>
+</html>
